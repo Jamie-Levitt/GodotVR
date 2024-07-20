@@ -1,7 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://b0g1owpvcicm2"]
+[gd_scene load_steps=15 format=3 uid="uid://b0g1owpvcicm2"]
 
 [ext_resource type="PackedScene" uid="uid://c77qpsyf82650" path="res://Player/player.tscn" id="1_p8dxu"]
 [ext_resource type="PackedScene" uid="uid://d2moo3x6wo7b1" path="res://Objects/Grabbables/pSphere.tscn" id="2_3abqy"]
+[ext_resource type="PackedScene" uid="uid://d1u8dr11xxrel" path="res://Objects/Grabbables/pCube.tscn" id="3_7sprk"]
+[ext_resource type="PackedScene" uid="uid://brxre51a4qkxa" path="res://Objects/Climbables/rock_climb.tscn" id="4_jr5r3"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_li73j"]
 
@@ -14,14 +16,23 @@ size = Vector3(25, 0.1, 25)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gwohh"]
 albedo_color = Color(0.313726, 0.494118, 0.47451, 1)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_lwdti"]
+size = Vector3(4.86, 1.6, 1)
+
 [sub_resource type="BoxMesh" id="BoxMesh_mjwek"]
-size = Vector3(4.86, 0.53, 1)
+size = Vector3(4.86, 1.6, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w1m5m"]
 albedo_color = Color(0.909804, 0.964706, 0.67451, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_lwdti"]
-size = Vector3(4.86, 0.53, 1)
+[sub_resource type="BoxShape3D" id="BoxShape3D_fr2j2"]
+size = Vector3(1, 1, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_k7u2c"]
+size = Vector3(1, 1, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ufo1b"]
+albedo_color = Color(0.439216, 0.658824, 0.65098, 1)
 
 [node name="world" type="Node3D"]
 
@@ -38,19 +49,168 @@ shape = SubResource("BoxShape3D_7cdyy")
 mesh = SubResource("BoxMesh_6r5pw")
 surface_material_override/0 = SubResource("StandardMaterial3D_gwohh")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.307203, -4.53828)
-mesh = SubResource("BoxMesh_mjwek")
-surface_material_override/0 = SubResource("StandardMaterial3D_w1m5m")
+[node name="StaticBody3D2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.831976, -4.53828)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000308514, 0.00477433, -0.00144053)
 shape = SubResource("BoxShape3D_lwdti")
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D2/CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000308514, -0.00477433, 0.00144053)
+mesh = SubResource("BoxMesh_mjwek")
+skeleton = NodePath("../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_w1m5m")
+
 [node name="PickableObject" parent="." instance=ExtResource("2_3abqy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1046, 0.711014, -4.48185)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1046, 1.94492, -4.48185)
 
 [node name="PickableObject2" parent="." instance=ExtResource("2_3abqy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.63544, 0.711014, -4.48185)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.635, 1.945, -4.482)
+
+[node name="PickableObject5" parent="." instance=ExtResource("3_7sprk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.586368, 1.96771, -4.51226)
+
+[node name="PickableObject4" parent="." instance=ExtResource("3_7sprk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.15248, 1.945, -4.482)
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="."]
+transform = Transform3D(7.25046, 3.38095, 0, -3.38095, 7.25046, 0, 0, 0, 8, 0.443635, -1.91188, 8.47522)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D3"]
+shape = SubResource("BoxShape3D_fr2j2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D3/CollisionShape3D"]
+mesh = SubResource("BoxMesh_k7u2c")
+surface_material_override/0 = SubResource("StandardMaterial3D_ufo1b")
+
+[node name="StaticBody3D4" type="StaticBody3D" parent="."]
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, -8.14689, 0.292683, 8.47522)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D4"]
+shape = SubResource("BoxShape3D_fr2j2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D4/CollisionShape3D"]
+mesh = SubResource("BoxMesh_k7u2c")
+surface_material_override/0 = SubResource("StandardMaterial3D_ufo1b")
+
+[node name="StaticBody3D5" type="StaticBody3D" parent="."]
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, -8.14689, 3.98936, -12.0592)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D5"]
+shape = SubResource("BoxShape3D_fr2j2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D5/CollisionShape3D"]
+mesh = SubResource("BoxMesh_k7u2c")
+surface_material_override/0 = SubResource("StandardMaterial3D_ufo1b")
+
+[node name="RockClimb" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.677, 0.674868, -11.6592)
+
+[node name="RockClimb2" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.7474, 1.09633, -11.6592)
+
+[node name="RockClimb3" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.68373, 0.551518, -11.6592)
+
+[node name="RockClimb4" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.6046, 1.61028, -11.6592)
+
+[node name="RockClimb5" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.1876, 2.01466, -11.6592)
+
+[node name="RockClimb6" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.17269, 1.58122, -11.6592)
+
+[node name="RockClimb7" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.2337, 3.26904, -11.6592)
+
+[node name="RockClimb8" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.55622, 3.10007, -11.6592)
+
+[node name="RockClimb9" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.1293, 2.35241, -11.6592)
+
+[node name="RockClimb10" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.92592, 2.31188, -11.6592)
+
+[node name="RockClimb11" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.90753, 3.0393, -11.6592)
+
+[node name="RockClimb12" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.0809, 1.77433, -11.6592)
+
+[node name="RockClimb13" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.44649, 0.483917, -11.6592)
+
+[node name="RockClimb14" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.19648, 2.49476, -11.6592)
+
+[node name="RockClimb15" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.73849, 1.0708, -11.6592)
+
+[node name="RockClimb16" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5046, 3.79158, -11.6592)
+
+[node name="RockClimb17" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.7894, 4.23138, -11.6592)
+
+[node name="RockClimb18" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.3395, 4.21646, -11.6592)
+
+[node name="RockClimb19" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.21446, 3.72656, -11.6592)
+
+[node name="RockClimb20" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.91818, 3.38377, -11.6592)
+
+[node name="RockClimb21" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.34258, 4.57714, -11.6592)
+
+[node name="RockClimb22" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.1818, 4.74108, -11.6592)
+
+[node name="RockClimb23" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.1777, 5.40761, -11.6592)
+
+[node name="RockClimb24" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.98439, 5.39752, -11.6592)
+
+[node name="RockClimb25" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.1248, 5.32946, -11.6592)
+
+[node name="RockClimb26" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.81133, 5.23579, -11.6592)
+
+[node name="RockClimb27" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.23014, 4.27239, -11.6592)
+
+[node name="RockClimb28" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.47276, 3.06255, -11.6592)
+
+[node name="RockClimb29" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.6226, 5.32803, -11.6592)
+
+[node name="RockClimb30" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.55917, 6.754, -11.6592)
+
+[node name="RockClimb31" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.8768, 6.60677, -11.6592)
+
+[node name="RockClimb32" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.47137, 6.90979, -11.6592)
+
+[node name="RockClimb33" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.77255, 6.1688, -11.6592)
+
+[node name="RockClimb34" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5671, 7.2543, -11.6592)
+
+[node name="RockClimb35" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.1988, 7.554, -11.6592)
+
+[node name="RockClimb36" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.022, 7.983, -11.6592)
+
+[node name="RockClimb37" parent="." instance=ExtResource("4_jr5r3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.55192, 7.98936, -11.7063)

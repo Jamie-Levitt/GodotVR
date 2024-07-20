@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c77qpsyf82650"]
+[gd_scene load_steps=15 format=3 uid="uid://c77qpsyf82650"]
 
 [ext_resource type="Script" path="res://Player/player.gd" id="1_xd2ji"]
 [ext_resource type="PackedScene" uid="uid://chumpejwiub7f" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_tac_glove_low.tscn" id="2_nrcg1"]
@@ -7,7 +7,24 @@
 [ext_resource type="PackedScene" uid="uid://bx1xdisoqo1f6" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_tac_glove_low.tscn" id="3_xiego"]
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="4_r527b"]
 [ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="6_3dov0"]
+[ext_resource type="PackedScene" uid="uid://c2q5phg8w08o" path="res://addons/godot-xr-tools/functions/movement_jump.tscn" id="6_au3aj"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/player/player_body.gd" id="6_sviyk"]
+[ext_resource type="PackedScene" uid="uid://clt88d5d1dje4" path="res://addons/godot-xr-tools/functions/movement_crouch.tscn" id="7_7ji1r"]
+[ext_resource type="PackedScene" uid="uid://bxm1ply47vaan" path="res://addons/godot-xr-tools/functions/movement_climb.tscn" id="8_qbgbv"]
+[ext_resource type="PackedScene" uid="uid://drs4eeq721ojn" path="res://addons/godot-xr-tools/functions/movement_sprint.tscn" id="10_yjr8l"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/overrides/ground_physics_settings.gd" id="11_n1c0e"]
+
+[sub_resource type="Resource" id="Resource_lpoch"]
+script = ExtResource("11_n1c0e")
+flags = 0
+move_drag = 5.0
+move_traction = 30.0
+stop_on_slope = true
+move_max_slope = 45.0
+jump_max_slope = 45.0
+jump_velocity = 7.0
+bounciness = 0.0
+bounce_threshold = 1.0
 
 [node name="Player" type="Node3D"]
 script = ExtResource("1_xd2ji")
@@ -23,10 +40,19 @@ script = ExtResource("2_thvou")
 
 [node name="RightHand" parent="XROrigin3D/RightHand" instance=ExtResource("2_nrcg1")]
 
-[node name="MovementTurn" parent="XROrigin3D/RightHand/RightHand" instance=ExtResource("3_pvvnw")]
+[node name="FunctionPickup" parent="XROrigin3D/RightHand" instance=ExtResource("6_3dov0")]
+grab_distance = 0.1
+
+[node name="MovementTurn" parent="XROrigin3D/RightHand" instance=ExtResource("3_pvvnw")]
 turn_mode = 2
 
-[node name="FunctionPickup" parent="XROrigin3D/RightHand/RightHand" instance=ExtResource("6_3dov0")]
+[node name="MovementJump" parent="XROrigin3D/RightHand" instance=ExtResource("6_au3aj")]
+jump_button_action = "primary_click"
+
+[node name="MovementCrouch" parent="XROrigin3D/RightHand" instance=ExtResource("7_7ji1r")]
+crouch_button_action = "trigger"
+
+[node name="MovementClimb" parent="XROrigin3D/RightHand" instance=ExtResource("8_qbgbv")]
 
 [node name="Lefthand" type="XRController3D" parent="XROrigin3D"]
 tracker = &"left_hand"
@@ -34,11 +60,17 @@ script = ExtResource("2_thvou")
 
 [node name="LeftHand" parent="XROrigin3D/Lefthand" instance=ExtResource("3_xiego")]
 
+[node name="FunctionPickup" parent="XROrigin3D/Lefthand" instance=ExtResource("6_3dov0")]
+grab_distance = 0.1
+
 [node name="MovementDirect" parent="XROrigin3D/Lefthand" instance=ExtResource("4_r527b")]
 strafe = true
 
-[node name="FunctionPickup" parent="XROrigin3D/Lefthand" instance=ExtResource("6_3dov0")]
+[node name="MovementSprint" parent="XROrigin3D/Lefthand" instance=ExtResource("10_yjr8l")]
+
+[node name="MovementClimb" parent="XROrigin3D/Lefthand" instance=ExtResource("8_qbgbv")]
 
 [node name="XRToolsPlayerBody" type="CharacterBody3D" parent="XROrigin3D"]
 top_level = true
 script = ExtResource("6_sviyk")
+physics = SubResource("Resource_lpoch")

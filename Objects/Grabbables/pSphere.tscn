@@ -1,9 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://d2moo3x6wo7b1"]
+[gd_scene load_steps=13 format=3 uid="uid://d2moo3x6wo7b1"]
 
 [ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1_bb1q3"]
-[ext_resource type="Script" path="res://Objects/Grabbables/grabbable.gd" id="2_ioex5"]
+[ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="3_ly0m5"]
+[ext_resource type="Animation" uid="uid://bediglpx0rj7i" path="res://addons/godot-xr-tools/hands/animations/left/Grip 5.res" id="4_iom0y"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/poses/hand_pose_settings.gd" id="5_txix0"]
+[ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="6_rg5bv"]
+[ext_resource type="Animation" uid="uid://s1vqcxyqcvea" path="res://addons/godot-xr-tools/hands/animations/right/Grip 5.res" id="7_raf80"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_gj6b2"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_hni6i"]
+radius = 0.1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l4lao"]
 albedo_color = Color(1, 0.360784, 0.384314, 1)
@@ -13,11 +20,29 @@ material = SubResource("StandardMaterial3D_l4lao")
 radius = 0.1
 height = 0.2
 
+[sub_resource type="Resource" id="Resource_o484x"]
+script = ExtResource("5_txix0")
+closed_pose = ExtResource("4_iom0y")
+
+[sub_resource type="Resource" id="Resource_ntesr"]
+script = ExtResource("5_txix0")
+closed_pose = ExtResource("7_raf80")
+
 [node name="PickableObject" instance=ExtResource("1_bb1q3")]
-script = ExtResource("2_ioex5")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00136808, 1.49012e-08, -7.76649e-05)
+physics_material_override = SubResource("PhysicsMaterial_gj6b2")
 
 [node name="CollisionShape3D" parent="." index="0"]
 shape = SubResource("SphereShape3D_hni6i")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" index="0"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="1"]
 mesh = SubResource("SphereMesh_wspoi")
+skeleton = NodePath("../CollisionShape3D")
+
+[node name="GrabPointHandLeft" parent="." index="2" instance=ExtResource("3_ly0m5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.072847, 0.0563177, -0.0735626)
+hand_pose = SubResource("Resource_o484x")
+
+[node name="GrabPointHandRight" parent="." index="3" instance=ExtResource("6_rg5bv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0694572, 0.0563177, -0.0735626)
+hand_pose = SubResource("Resource_ntesr")
