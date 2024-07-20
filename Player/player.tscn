@@ -1,0 +1,44 @@
+[gd_scene load_steps=9 format=3 uid="uid://c77qpsyf82650"]
+
+[ext_resource type="Script" path="res://Player/player.gd" id="1_xd2ji"]
+[ext_resource type="PackedScene" uid="uid://chumpejwiub7f" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_tac_glove_low.tscn" id="2_nrcg1"]
+[ext_resource type="Script" path="res://Player/HandIK.gd" id="2_thvou"]
+[ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="3_pvvnw"]
+[ext_resource type="PackedScene" uid="uid://bx1xdisoqo1f6" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_tac_glove_low.tscn" id="3_xiego"]
+[ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="4_r527b"]
+[ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="6_3dov0"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/player/player_body.gd" id="6_sviyk"]
+
+[node name="Player" type="Node3D"]
+script = ExtResource("1_xd2ji")
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+current = true
+
+[node name="RightHand" type="XRController3D" parent="XROrigin3D"]
+tracker = &"right_hand"
+script = ExtResource("2_thvou")
+
+[node name="RightHand" parent="XROrigin3D/RightHand" instance=ExtResource("2_nrcg1")]
+
+[node name="MovementTurn" parent="XROrigin3D/RightHand/RightHand" instance=ExtResource("3_pvvnw")]
+turn_mode = 2
+
+[node name="FunctionPickup" parent="XROrigin3D/RightHand/RightHand" instance=ExtResource("6_3dov0")]
+
+[node name="Lefthand" type="XRController3D" parent="XROrigin3D"]
+tracker = &"left_hand"
+script = ExtResource("2_thvou")
+
+[node name="LeftHand" parent="XROrigin3D/Lefthand" instance=ExtResource("3_xiego")]
+
+[node name="MovementDirect" parent="XROrigin3D/Lefthand" instance=ExtResource("4_r527b")]
+strafe = true
+
+[node name="FunctionPickup" parent="XROrigin3D/Lefthand" instance=ExtResource("6_3dov0")]
+
+[node name="XRToolsPlayerBody" type="CharacterBody3D" parent="XROrigin3D"]
+top_level = true
+script = ExtResource("6_sviyk")

@@ -1,0 +1,56 @@
+[gd_scene load_steps=10 format=3 uid="uid://b0g1owpvcicm2"]
+
+[ext_resource type="PackedScene" uid="uid://c77qpsyf82650" path="res://Player/player.tscn" id="1_p8dxu"]
+[ext_resource type="PackedScene" uid="uid://d2moo3x6wo7b1" path="res://Objects/Grabbables/pSphere.tscn" id="2_3abqy"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_li73j"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7cdyy"]
+size = Vector3(25, 0.1, 25)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6r5pw"]
+size = Vector3(25, 0.1, 25)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gwohh"]
+albedo_color = Color(0.313726, 0.494118, 0.47451, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mjwek"]
+size = Vector3(4.86, 0.53, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w1m5m"]
+albedo_color = Color(0.909804, 0.964706, 0.67451, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lwdti"]
+size = Vector3(4.86, 0.53, 1)
+
+[node name="world" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("1_p8dxu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.400559, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_li73j")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_7cdyy")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D/CollisionShape3D"]
+mesh = SubResource("BoxMesh_6r5pw")
+surface_material_override/0 = SubResource("StandardMaterial3D_gwohh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.307203, -4.53828)
+mesh = SubResource("BoxMesh_mjwek")
+surface_material_override/0 = SubResource("StandardMaterial3D_w1m5m")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000308514, 0.00477433, -0.00144053)
+shape = SubResource("BoxShape3D_lwdti")
+
+[node name="PickableObject" parent="." instance=ExtResource("2_3abqy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1046, 0.711014, -4.48185)
+
+[node name="PickableObject2" parent="." instance=ExtResource("2_3abqy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.63544, 0.711014, -4.48185)

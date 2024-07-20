@@ -1,0 +1,23 @@
+[gd_scene load_steps=6 format=3 uid="uid://d2moo3x6wo7b1"]
+
+[ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1_bb1q3"]
+[ext_resource type="Script" path="res://Objects/Grabbables/grabbable.gd" id="2_ioex5"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_hni6i"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l4lao"]
+albedo_color = Color(1, 0.360784, 0.384314, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_wspoi"]
+material = SubResource("StandardMaterial3D_l4lao")
+radius = 0.1
+height = 0.2
+
+[node name="PickableObject" instance=ExtResource("1_bb1q3")]
+script = ExtResource("2_ioex5")
+
+[node name="CollisionShape3D" parent="." index="0"]
+shape = SubResource("SphereShape3D_hni6i")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" index="0"]
+mesh = SubResource("SphereMesh_wspoi")

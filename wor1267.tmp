@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://b0g1owpvcicm2"]
+
+[ext_resource type="Script" path="res://world.gd" id="1_bwlik"]
+[ext_resource type="PackedScene" uid="uid://c77qpsyf82650" path="res://player.tscn" id="1_p8dxu"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_fgoi8"]
+
+[node name="world" type="Node3D"]
+script = ExtResource("1_bwlik")
+
+[node name="Player" parent="." instance=ExtResource("1_p8dxu")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_fgoi8")
